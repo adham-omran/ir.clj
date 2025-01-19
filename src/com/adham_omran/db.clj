@@ -14,7 +14,7 @@
 
 (defmethod insert :text [m]
   (->> {:insert-into [:collection]
-        :columns [:afactor :priority :interval :date :type :path]
+        :columns [:afactor :priority :interval :date :type :content]
         :values [[1.0
                   1.0
                   1.0
@@ -28,10 +28,45 @@
   ;; Query
   (jdbc/execute! ds (sql/format {:select [:*] :from [:collection]}))
 
-;; Insert text
+  ;; Insert text
   (-> {:type :text
        :content "Kubernetes coordinates a highly available cluster of computers that are connected to work as a single unit"}
       insert)
+
+  (-> {:type :text
+       :content "Kubernetes coordinates a highly available cluster of computers"}
+      insert)
+
+  (->> {:select [:id]
+        :from [:collection]
+        :where [:= "Kubernetes coordinates a highly available cluster of computers"
+                :content]}
+       sql/format
+       (jdbc/execute! ds)
+       first
+       :collection/id)
+
+  ;; Parent->Child relationship, fragment of element (in itself an element)
+  (let [parent-id (->> {:select [:id]
+                        :from [:collection]
+                        :where [:= "Kubernetes coordinates a highly available cluster of computers that are connected to work as a single unit"
+                                :content]}
+                       sql/format
+                       (jdbc/execute! ds)
+                       first
+                       :collection/id)
+        child-id (->> {:select [:id]
+                       :from [:collection]
+                       :where [:= "Kubernetes coordinates a highly available cluster of computers"
+                               :content]}
+                      sql/format
+                      (jdbc/execute! ds)
+                      first
+                      :collection/id)]
+    (->> (sql/format {:insert-into [:collection_relationships]
+                      :columns [:parent_id :child_id]
+                      :values [[parent-id child-id]]})
+         (jdbc/execute! ds)))
 
   ;; Open in browser
   (let [query (-> ds
