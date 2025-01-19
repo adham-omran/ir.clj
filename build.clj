@@ -2,9 +2,8 @@
   (:refer-clojure :exclude [test])
   (:require [clojure.tools.build.api :as b]))
 
-(def lib 'net.clojars.adham-omran/ir)
 (def version "0.1.0-SNAPSHOT")
-(def main 'adham-omran.ir)
+(def main 'com.adham-omran.ir)
 (def class-dir "target/classes")
 
 (defn test "Run all the tests." [opts]
@@ -19,8 +18,8 @@
 
 (defn- uber-opts [opts]
   (assoc opts
-         :lib lib :main main
-         :uber-file (format "target/%s-%s.jar" lib version)
+         :main main
+         :uber-file (format "target/%s.jar" version)
          :basis (b/create-basis {})
          :class-dir class-dir
          :src-dirs ["src"]
