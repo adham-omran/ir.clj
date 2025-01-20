@@ -2,7 +2,8 @@
   (:gen-class)
   (:require
    [clojure.string :as str]
-   [clojure.tools.cli :refer [parse-opts]])
+   [clojure.tools.cli :refer [parse-opts]]
+   [com.adham-omran.gui :as gui])
   (:import
    [java.net InetAddress]))
 
@@ -101,15 +102,17 @@
   [& args]
   ;; TODO: Use https://github.com/clojure/tools.cli
   (let [{:keys [action exit-message ok? gui?]} (validate-args args)]
-    (when gui?
-      (println "Starting GUI mode... Experimental...")
-      (exit 0 "Leaving."))
-    (if exit-message
-      (exit (if ok? 0 1) exit-message)
-      (case action
-        "start" (println :start)
-        "stop" (println :stop)
-        "status" (println :status)))))
+    (if gui?
+      (do
+        (println "Starting GUI mode... Experimental...")
+        (gui/renderer {:fx/type gui/root
+                       :showing true}))
+      (if exit-message
+        (exit (if ok? 0 1) exit-message)
+        (case action
+          "start" (println :start)
+          "stop" (println :stop)
+          "status" (println :status))))))
 
 
 ;; We validate then set what to do for -main to run
