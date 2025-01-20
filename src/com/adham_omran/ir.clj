@@ -7,7 +7,7 @@
    [java.net InetAddress]))
 
 (def cli-options
-  [;; First three strings describe a short-option, long-option with optional
+  [ ;; First three strings describe a short-option, long-option with optional
    ;; example argument description, and a description. All three are optional
    ;; and positional.
    ["-p" "--port PORT" "Port number"
@@ -30,7 +30,7 @@
     ;; Use :update-fn to create non-idempotent options (:default is applied first)
     :update-fn inc]
    ["-f" "--file NAME" "File names to read"
-    :multi true ; use :update-fn to combine multiple instance of -f/--file
+    :multi true       ; use :update-fn to combine multiple instance of -f/--file
     :default []
     ;; with :multi true, the :update-fn is passed both the existing parsed
     ;; value(s) and the new parsed value from each option
