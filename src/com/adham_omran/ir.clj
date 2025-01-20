@@ -43,6 +43,9 @@
     ;; parse-long was added in Clojure 1.11:
     :parse-fn parse-long]
    ;; A boolean option that can explicitly be set to false
+   ["-g" "--gui"
+    :id :gui
+    :desc "Launch in GUI mode"]
    ["-d" "--[no-]daemon" "Daemonize the process" :default true]
    ["-h" "--help"]])
 
@@ -73,15 +76,20 @@
   [args]
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
     (cond
-      (:help options) ; help => exit OK with usage summary
+      (:help options)                   ; help => exit OK with usage summary
       {:exit-message (usage summary) :ok? true}
-      errors ; errors => exit with description of errors
+
+      (:gui options)
+      {:gui? true}
+
+      errors                         ; errors => exit with description of errors
       {:exit-message (error-msg errors)}
+
       ;; custom validation on arguments
       (and (= 1 (count arguments))
            (#{"start" "stop" "status"} (first arguments)))
       {:action (first arguments) :options options}
-      :else ; failed custom validation => exit with usage summary
+      :else                ; failed custom validation => exit with usage summary
       {:exit-message (usage summary)})))
 
 (defn exit [status msg]
@@ -92,10 +100,16 @@
   "I don't do a whole lot ... yet."
   [& args]
   ;; TODO: Use https://github.com/clojure/tools.cli
-  (let [{:keys [action options exit-message ok?]} (validate-args args)]
+  (let [{:keys [action exit-message ok? gui?]} (validate-args args)]
+    (when gui?
+      (println "Starting GUI mode... Experimental...")
+      (exit 0 "Leaving."))
     (if exit-message
       (exit (if ok? 0 1) exit-message)
       (case action
-        "start"  (println :start)
-        "stop"   (println :stop)
+        "start" (println :start)
+        "stop" (println :stop)
         "status" (println :status)))))
+
+
+;; We validate then set what to do for -main to run
