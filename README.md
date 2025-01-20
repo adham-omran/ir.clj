@@ -18,13 +18,20 @@ Run that uberjar:
 
 ## Options
 
-| Flag | Long Name | Description |
-|------|-----------|-------------|
-| -a   | --add     |             |
-| -t   | --type    | Type        |
-| -c   | --content | Content     |
-| -h   | --help    |             |
-| -r   | --read    |             |
+| Flag | Long Name | Description                   |
+|------|-----------|-------------------------------|
+| -h   | --help    |                               |
+| -g   | --gui     | Launches the experimental GUI |
+
+
+## Commands
+
+| Command | Description                          |
+|---------|--------------------------------------|
+| add     | Begins adding mode to insert into db |
+| read    | Begins reading mode                  |
+
+
 
 ## Examples
 
