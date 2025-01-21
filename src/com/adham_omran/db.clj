@@ -2,6 +2,7 @@
   "Utilities to insert to and read from db."
   (:require
    [clojure.java.browse :as browse]
+   [com.adham-omran.impl.protocols :as protocols]
    [honey.sql :as sql]
    [next.jdbc :as jdbc]))
 
@@ -10,11 +11,11 @@
 
 (defmulti insert
   "Insert multimethod"
-  :type)
+  :kind)
 
 (defmethod insert :text [m]
   (->> {:insert-into [:collection]
-        :columns [:afactor :priority :interval :date :type :content]
+        :columns [:afactor :priority :interval :date :kind :content]
         :values [[1.0
                   1.0
                   1.0
@@ -24,18 +25,46 @@
        sql/format
        (jdbc/execute! ds)))
 
+(defmethod insert :web [m]
+  (->> {:insert-into [:collection]
+        :columns [:afactor :priority :interval :date :kind :content]
+        :values [[1.0
+                  1.0
+                  1.0
+                  (.getEpochSecond (java.time.Instant/now))
+                  "web"
+                  (:link m)]]}
+       sql/format
+       (jdbc/execute! ds)))
+
+;; Reading
+
+(defmulti read
+  "Reading multimethod."
+  :kind)
+
+(defmethod read :web [m]
+  (clojure.java.browse/browse-url (-> m :collection/content)))
+
 (comment
   ;; Query
   (jdbc/execute! ds (sql/format {:select [:*] :from [:collection]}))
 
   ;; Insert text
-  (-> {:type :text
+  (-> {:kind :text
        :content "Kubernetes coordinates a highly available cluster of computers that are connected to work as a single unit"}
       insert)
 
-  (-> {:type :text
-       :content "Kubernetes coordinates a highly available cluster of computers"}
+  ;; Insert web link, the flow would be to open a link and extract its text into
+  ;; the system.
+  (-> {:kind :web
+       :link "https://en.wikipedia.org/wiki/Expression_problem"}
       insert)
+
+  ;; TODO: Change into parent like insert
+  #_(-> {:kind :text
+         :content "Kubernetes coordinates a highly available cluster of computers"}
+        insert)
 
   (->> {:select [:id]
         :from [:collection]
@@ -75,3 +104,6 @@
     (browse/browse-url (:collection/path query)))
 
   (jdbc/execute! ds (sql/format {:select [:*] :from [:collection]})))
+
+
+;;; # Record Approach
