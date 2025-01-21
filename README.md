@@ -18,10 +18,10 @@ Run that uberjar:
 
 ## Options
 
-| Flag | Long Name | Description                   |
-|------|-----------|-------------------------------|
-| -h   | --help    |                               |
-| -g   | --gui     | Launches the experimental GUI |
+| Flag | Long Name | Description      |
+|------|-----------|------------------|
+| -h   | --help    |                  |
+| -g   | --gui     | Launches the GUI |
 
 
 ## Commands
@@ -30,8 +30,6 @@ Run that uberjar:
 |---------|--------------------------------------|
 | add     | Begins adding mode to insert into db |
 | read    | Begins reading mode                  |
-
-
 
 ## Examples
 
@@ -55,7 +53,16 @@ A protocol defines an Element protocol with two methods
   appropriate way (e.g. open a web browser with a link, open a text box for a
   text kind)
 
+
+- I want to get to GUI as soon as possible.  CLI is not appropriate for creating
+  extracts, nothing beyond maybe opening the text extract in nano/vi/vim at most
+  if at all.
+
 ## Architecture
+
+How do does a Record _map_ to a database row?
+
+- All values?
 
 ### Shared
 
@@ -73,19 +80,85 @@ Shared code between CLI and GUI this includes constructing a library that provid
 
 ## Development Phases
 
-### Basic Incremental Reading I
+Phases and their objectives
+
+### Incremental Reading I
+
+A full workflow for adding links and text extracts to the db.  Creating extracts
+from a web link.
+
+- No view of text items
+
+#### Adding
+
+CLI Only
+
+Invoke an add mode with `java -jar ./ir.java add`
+
+- ask user for kind of material
+- enter kind
+- enter the content of the kind
+- create a Record based on the _kind_ of material
+- invoke the `add` method on the Record
+
+#### Reading
 
 CLI Only
 
 Web links
 
-Open link, options to
+Open link in browser, options to
 1. next link
 2. add text extract
 
-### CLI: Interaction with Anki
+### Incremental Reading II
 
-###
+First GUI Elements
+
+- View text extract
+- Edit text extract
+
+### Incremental Reading III
+
+### Incremental Reading IV
+
+### Incremental Reading Long Term
+
+- Open PDF instance with dialogue to add text extracts
+- Extract text from PDF if possible
+- Highlight text in PDF if possible
+
+PDF + Transformations to not overwrite PDF.
+
+Image extraction from PDF pages
+
+### Interaction with Anki I
+
+
+## Kinds
+
+### Introduction
+
+A kind is a type of material.
+
+List of kinds and their status
+
+| Kind      | Supported | Not Supported | Planned Support |
+|-----------|-----------|---------------|-----------------|
+| Text      |           |               | Yes             |
+| Web Links |           |               | Yes             |
+| PDF       |           |               | Yes             |
+| Images    |           |               | Yes             |
+| YouTube   |           |               | Undecided       |
+| MP4       |           |               | Undecided       |
+| MP3       |           |               | Undecided       |
+
+### Text
+
+
+### Image
+
+An image element in GUI is an image with the ability to write text underneath.
 
 ## License
 
