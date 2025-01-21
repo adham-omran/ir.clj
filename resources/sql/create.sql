@@ -4,7 +4,7 @@ CREATE TABLE collection (
        priority REAL NOT NULL,
        interval INTEGER NOT NULL,
        date INTEGER NOT NULL,
-       type TEXT NOT NULL,
+       kind TEXT NOT NULL,
        content TEXT NOT NULL
 );
 
