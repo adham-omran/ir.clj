@@ -83,7 +83,7 @@
 
       ;; custom validation on arguments
       (and (= 1 (count arguments))
-           (#{"start" "stop" "status"} (first arguments)))
+           (#{"add" "read"} (first arguments)))
       {:action (first arguments) :options options}
       :else                ; failed custom validation => exit with usage summary
       {:exit-message (usage summary)})))
@@ -96,7 +96,7 @@
   "I don't do a whole lot ... yet."
   [& args]
   ;; TODO: Use https://github.com/clojure/tools.cli
-  (let [{:keys [action exit-message ok? gui?]} (validate-args args)]
+  (let [{:keys [action options exit-message ok? gui?]} (validate-args args)]
     (if gui?
       (do
         (println "Starting GUI mode... Experimental...")
@@ -105,9 +105,8 @@
       (if exit-message
         (exit (if ok? 0 1) exit-message)
         (case action
-          "start" (println :start)
-          "stop" (println :stop)
-          "status" (println :status))))))
+          "read" (println :read)
+          "add" (println :add))))))
 
 
 ;; We validate then set what to do for -main to run
