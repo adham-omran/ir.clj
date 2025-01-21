@@ -11,10 +11,6 @@
   [ ;; First three strings describe a short-option, long-option with optional
    ;; example argument description, and a description. All three are optional
    ;; and positional.
-   ["-p" "--port PORT" "Port number"
-    :default 80
-    :parse-fn #(Integer/parseInt %)
-    :validate [#(< 0 % 0x10000) "Must be a number between 0 and 65536"]]
    ["-H" "--hostname HOST" "Remote host"
     :default (InetAddress/getByName "localhost")
     ;; Specify a string to output in the default column in the options summary
@@ -44,9 +40,8 @@
     ;; parse-long was added in Clojure 1.11:
     :parse-fn parse-long]
    ;; A boolean option that can explicitly be set to false
-   ["-g" "--gui"
-    :id :gui
-    :desc "Launch in GUI mode"]
+   ["-g" "--gui" "Launch in GUI mode"
+    :id :gui]
    ["-d" "--[no-]daemon" "Daemonize the process" :default true]
    ["-h" "--help"]])
 
