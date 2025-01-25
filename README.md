@@ -2,10 +2,6 @@
 
 FIXME: my new application.
 
-## Installation
-
-Download from https://github.com/adham-omran/ir
-
 ## Usage
 
 Build
@@ -23,35 +19,24 @@ Run that uberjar:
 | -h   | --help    |                  |
 | -g   | --gui     | Launches the GUI |
 
-
 ## Commands
+
+These are for the CLI mode
 
 | Command | Description                          |
 |---------|--------------------------------------|
 | add     | Begins adding mode to insert into db |
 | read    | Begins reading mode                  |
 
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
 ## Ideas
 
 A protocol defines an Element protocol with two methods
-- add, given kind-dependent input (e.g. link for a web element), add the element
-  to the db
-- read, after querying the db for the next element to _read_, construct a record
-  based on the kind of the element and the read method _reads_ the element in an
-  appropriate way (e.g. open a web browser with a link, open a text box for a
-  text kind)
+- `add`: given kind-dependent input (e.g. link for a web element), add the
+  element to the db
+- `read`: Construct a record based on the kind of the element and the read
+  method _reads_ the element in an appropriate way (e.g. open a web browser with
+  a link, open a text box for a text kind).  This will typically occur after
+  querying the db for the next element to _read_,
 
 
 - I want to get to GUI as soon as possible.  CLI is not appropriate for creating
@@ -63,6 +48,15 @@ A protocol defines an Element protocol with two methods
 How do does a Record _map_ to a database row?
 
 - All values?
+
+### Representation of Information
+
+The domain information is that of Elements that are incrementally read.
+
+The information is stored in a SQLite database.  When pulled to be used
+in-memory they are represented as Records, the Record is based on the _kind_ of
+the element, these records extend the Element protocol to implement `add` and
+`read`.
 
 ### Shared
 
@@ -77,6 +71,27 @@ Shared code between CLI and GUI this includes constructing a library that provid
 ### CLI
 
 ### GUI
+
+The GUI is complex and contains many features, the development of the features
+is over phases over an undefined amount of time.
+
+#### Display Per Kind
+
+Each kind is viewed and interacted with in a different manner than other kinds,
+that's the differentiating factor between kinds.
+
+##### Text
+
+Deceptively simple.  What appears to be just plain text is in fact rich text.
+
+The reason it needs to be rich text is the requirements for:
+1. Highlighting the text upon subsequent extractions.
+2. Highlighting the text upon cloze deletion.
+
+Features I'll need to implement
+
+1. Obtain selected text
+2. Highlight selected text
 
 ## Development Phases
 
@@ -134,6 +149,7 @@ Image extraction from PDF pages
 
 ### Interaction with Anki I
 
+The idea is that cloze deletion would instantly create and send a card to Anki.
 
 ## Kinds
 
@@ -165,5 +181,5 @@ An image element in GUI is an image with the ability to write text underneath.
 Copyright © 2025 Adham
 
 <!-- Local Variables: -->
-<!-- jinx-local-words: "Anki" -->
+<!-- jinx-local-words: "Anki cloze" -->
 <!-- End: -->
