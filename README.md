@@ -93,6 +93,9 @@ Features I'll need to implement
 1. Obtain selected text
 2. Highlight selected text
 
+Candidates for a solution
+- [JavaFX/HTMLEditor](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/web/HTMLEditor.html)
+
 ## Development Phases
 
 Phases and their objectives
