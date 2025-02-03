@@ -179,6 +179,16 @@ List of kinds and their status
 
 An image element in GUI is an image with the ability to write text underneath.
 
+## Motivation
+
+> > I wish to see a FOSS incremental reading application in the very least, such an underrated concept.
+>
+> Be the change you wish to see in the world
+
+― David Allison (AnkiDroid maintainer)
+
+[From my rant on HN](https://news.ycombinator.com/item?id=42914696)
+
 ## License
 
 Copyright © 2025 Adham
