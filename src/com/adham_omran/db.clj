@@ -3,10 +3,12 @@
   (:require
    [clojure.java.browse :as browse]
    [com.adham-omran.impl.protocols :as protocols]
+   [clojure.java.io :as io]
    [honey.sql :as sql]
    [next.jdbc :as jdbc]))
 
-(def db {:dbtype "sqlite" :dbname "./resources/sql/ir.db"})
+(def db {:dbtype "sqlite"
+         :dbname (io/file "./resources/sql/ir.db")})
 (def ds (jdbc/get-datasource db))
 
 (defmulti insert
